@@ -15,25 +15,30 @@
  ****************************************************/
 
 
-#include <Adafruit_Fingerprint.h>
+#include <Adafruit_Fingerprint_DH.h>
 
-
-#if (defined(__AVR__) || defined(ESP8266)) && !defined(__AVR_ATmega2560__)
-// For UNO and others without hardware serial, we must use software serial...
-// pin #2 is IN from sensor (GREEN wire)
-// pin #3 is OUT from arduino  (WHITE wire)
-// Set up the serial port to use softwareserial..
-SoftwareSerial mySerial(2, 3);
-
+#if defined (PARTICLE)
+//
 #else
-// On Leonardo/M0/etc, others with hardware serial, use hardware serial!
-// #0 is green wire, #1 is white
-#define mySerial Serial1
-
+#if ARDUINO >= 100
+ #include <SoftwareSerial.h>
+#else
+ #include <NewSoftSerial.h>
+#endif
 #endif
 
-
+#if defined (PARTICLE)
+Adafruit_Fingerprint finger = Adafruit_Fingerprint(&Serial1);
+#else
+// pin #2 is IN from sensor (GREEN wire)
+// pin #3 is OUT from arduino  (WHITE wire)
+#if ARDUINO >= 100
+SoftwareSerial mySerial(2, 3);
+#else
+NewSoftSerial mySerial(2, 3);
+#endif
 Adafruit_Fingerprint finger = Adafruit_Fingerprint(&mySerial);
+#endif
 
 void setup()
 {

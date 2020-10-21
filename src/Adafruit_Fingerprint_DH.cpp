@@ -26,7 +26,7 @@
  *
  */
 
-#include "Adafruit_Fingerprint.h"
+#include "Adafruit_Fingerprint_DH.h"
 
 //#define FINGERPRINT_DEBUG
 
